@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "439722611085",
+    "project_id": "click-medical",
+    "storage_bucket": "click-medical.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439722611085:android:cf9d1577870fa98287adc4",
+        "android_client_info": {
+          "package_name": "com.example.clickmedical"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439722611085-i3064m57ppf2p6i3n3gnojilp642gmn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDSixl98Wyq95PsDFNGsFlQJepS3qQx1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439722611085-i3064m57ppf2p6i3n3gnojilp642gmn1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

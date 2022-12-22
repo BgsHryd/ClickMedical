@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HistoryActivity"
+    android:background="@color/primary">
+
+    <TextView
+        android:id="@+id/textRiwayat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Riwayat Pencarian"
+        android:textSize="40dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="30dp"
+        ></TextView>
+
+    <EditText
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/main_variant"
+        android:drawableRight="@drawable/ic_baseline_black_search_24"
+        android:hint="Masukkan nama rumah sakit disini"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:inputType="text"
+        android:textColor="@color/white"
+        android:textColorHint="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textRiwayat"
+        tools:layout_editor_absoluteX="20dp"></EditText>
+
+    <ListView
+        android:id="@+id/histListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="250dp"
+        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        android:layout_margin="20dp"
+        android:divider="@color/black"
+        android:background="@color/main_variant"
+        ></ListView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

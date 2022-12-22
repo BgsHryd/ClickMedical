@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".ProfileActivity"
+    >
+
+    <TextView
+        android:id="@+id/nameOfUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text=""
+        android:textColor="@color/black"
+        ></TextView>
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/nameOfUser"
+        android:layout_margin="20dp"
+        android:hint="Riwayat Pesanan"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/secondary"
+        ></Button>
+    <Button
+        android:id="@+id/logOutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/historyButton"
+        android:layout_margin="20dp"
+        android:padding="1dp"
+        android:hint="Log out"
+        android:backgroundTint="@color/secondary"
+        android:textColor="@color/black"
+        ></Button>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
