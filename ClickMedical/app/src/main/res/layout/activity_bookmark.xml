@@ -5,6 +5,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookmarkActivity">
+    tools:context=".BookmarkActivity"
+    android:background="@color/primary">
+
+  <TextView
+      android:id="@+id/bookmarkTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="20dp"
+      android:text="BOOKMARK"
+      android:gravity="center"
+      android:textSize="40dp"
+      android:layout_marginTop="40dp"
+      app:layout_constraintTop_toTopOf="parent"
+      android:textColor="@color/black"
+    ></TextView>
+
+  <ListView
+      android:id="@+id/bookmarkListView"
+      android:layout_width="match_parent"
+      android:layout_height="500dp"
+      app:layout_constraintTop_toBottomOf="@id/bookmarkTitle"
+      android:layout_margin="20dp"
+      android:divider="@color/black"
+      android:background="@color/main_variant"
+      ></ListView>
 
   </androidx.constraintlayout.widget.ConstraintLayout>

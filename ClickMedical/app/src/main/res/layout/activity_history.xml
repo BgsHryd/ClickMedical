@@ -38,8 +38,7 @@
     <ListView
         android:id="@+id/histListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="250dp"
+        android:layout_height="500dp"
         app:layout_constraintTop_toBottomOf="@id/searchBar"
         android:layout_margin="20dp"
         android:divider="@color/black"
