@@ -43,6 +43,8 @@
         android:layout_margin="20dp"
         android:divider="@color/black"
         android:background="@color/main_variant"
+        android:contextClickable="false"
+        android:clickable="false"
         ></ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

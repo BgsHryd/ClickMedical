@@ -31,7 +31,6 @@ public class Login extends AppCompatActivity {
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
-        DB = new DBHelper(this);
         mAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(Login.this);

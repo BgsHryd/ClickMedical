@@ -18,11 +18,14 @@ public class Home extends AppCompatActivity {
     private TextView name;
     private ImageButton pesanBtn, recBtn, profilebtn;
     private ImageButton histBtn, bookmarkBtn;
+    DBHelper db;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        db = new DBHelper();
         name = findViewById(R.id.name);
         profilebtn = findViewById(R.id.profileButton);
         pesanBtn = findViewById(R.id.pesanButton);
@@ -31,6 +34,9 @@ public class Home extends AppCompatActivity {
         bookmarkBtn = findViewById(R.id.bookmarkButton);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        db.getCurrentCustomerData(firebaseUser.getEmail());
+        while(!db.taskQueryCustomer.isSuccessful());
+        System.out.println(db.currentUser);
 
         if (firebaseUser != null) {
             name.setText(firebaseUser.getDisplayName());

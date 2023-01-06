@@ -12,7 +12,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="titleTextColor">@color/black</item>
     </style>
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/black</item>
+    </style>
+
     <style name="Theme.ClickMedical.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

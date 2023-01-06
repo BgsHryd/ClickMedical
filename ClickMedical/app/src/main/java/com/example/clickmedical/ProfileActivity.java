@@ -16,12 +16,13 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private TextView name;
     private Button logOutbtn, historyBtn;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        db = new DBHelper();
         name = findViewById(R.id.nameOfUser);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null){
