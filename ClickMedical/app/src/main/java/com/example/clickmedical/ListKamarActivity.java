@@ -16,21 +16,32 @@ public class ListKamarActivity extends AppCompatActivity {
     ListView beds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // inisialisasi variabel
         HelperSaver saver = new HelperSaver();
         DBHelper db = new DBHelper();
+
+        // setting agar layout activity_list_kamar muncul
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_kamar);
+
+        // nampilin data ke layar
         title = (TextView) findViewById(R.id.titleRS);
         beds = (ListView) findViewById(R.id.kamarListView);
         title.setText(saver.getRumahSakit().getNama());
+        // masukkin data ke dalam ListView
         CustomBaseAdapterKamar adapter = new CustomBaseAdapterKamar(getApplicationContext(),
                 db.listKamar, db.imagesKamar.get(saver.getRumahSakit().getNama()));
         beds.setAdapter(adapter);
+
+        // case kalo item ListView nya dipencet
         beds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // simpen data kamar yang ditekan ke dalam HelperSaver
                 saver.kamar = db.listKamar.get(position);
                 saver.imageKamar = db.imagesKamar.get(saver.getRumahSakit().getNama())[position];
+
+                // pindah layout ke InfoKamarActivity
                 startActivity(new Intent(getApplicationContext(), InfoKamarActivity.class));
             }
         });

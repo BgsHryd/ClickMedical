@@ -36,13 +36,13 @@ public class Register extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    Map<String, Object> user = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // inisialisasi variabel yang akan digunakan
         email = (EditText) findViewById(R.id.inputEmail);
         password = (EditText) findViewById(R.id.inputPassword);
         confPassword = (EditText) findViewById(R.id.inputConfirm);
@@ -56,9 +56,12 @@ public class Register extends AppCompatActivity {
 
         regBtn = (Button) findViewById(R.id.registerButton);
         loginBtn = (Button) findViewById(R.id.LoginButton);
+
+        // case kalo tombol login ditekan
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // pindah activity ke login
                 Intent i = new Intent(getApplicationContext(), Login.class);
                 startActivity(i);
             }
@@ -66,16 +69,20 @@ public class Register extends AppCompatActivity {
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // ambil data yang udah user isiin
                 String mail = email.getText().toString();
                 String name = fullName.getText().toString();
                 String pass = password.getText().toString();
                 String repass = confPassword.getText().toString();
 
-                if (mail.equals("") || pass.equals("") || name.equals("") || repass.equals("")){
+                if (mail.equals("") || pass.equals("") || name.equals("") || repass.equals("")){ // case kalo ada form yang masi kosong
                     Toast.makeText(Register.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 }else{
+                    // check kalo form password sama confirm password udah sama atau belum
                     if (pass.equals(repass)){
+                        // lebih detailnya rujuk ke method register dibawah
                         register(name, mail, pass);
+                        // tambahin data customer ke dalam database
                         addCustomerToDatabase(name, mail, "Customer");
                     }else{
                         Toast.makeText(Register.this, "Password input is not match", Toast.LENGTH_SHORT).show();
@@ -86,19 +93,24 @@ public class Register extends AppCompatActivity {
         });
     }
     private void register(String fullName, String email, String password){
+        // tampilkan progress dialog
         progressDialog.show();
+
+        // bantuan firebase buat bikin user dengan email
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()){ // kalo udah berhasil buat user
                     FirebaseUser user = task.getResult().getUser();
                     if (user != null) {
+                        // ubah data profile
                         UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(fullName)
                                 .build();
                         user.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                // kalo dah beres buat user dan setting data pindah ke Ho
                                 reload();
                             }
                         });
@@ -113,9 +125,12 @@ public class Register extends AppCompatActivity {
         });
     }
     private void addCustomerToDatabase(String nama, String email, String dbName){
+        // nambahin customer ked alam database
         Map<String, Object> data = new HashMap<>();
         data.put("nama", nama);
         data.put("email", email);
+
+        // syntax untuk menambahkan user ke dalam firebase
         db.collection(dbName)
         .add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -132,6 +147,7 @@ public class Register extends AppCompatActivity {
                 });
     }
     private void reload(){
+        // buat pindah ke Home
         Intent i;
         i = new Intent(getApplicationContext(), Home.class);
         startActivity(i);

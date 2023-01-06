@@ -22,14 +22,22 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        // inisialisasi variabel yang bakal dipake
         db = new DBHelper();
         name = findViewById(R.id.nameOfUser);
+
+        // ambil data user yang lagi login
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null){
+            // tampilin nama user
             name.setText(firebaseUser.getDisplayName());
         }else{
+            // ini harusnya engga mungkin mengingat logic di login dan register
             name.setText("Tidak mungkin");
         }
+
+        // setting logout button
         logOutbtn = findViewById(R.id.logOutButton);
         logOutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // setting buat pindah ke layar history
         historyBtn = findViewById(R.id.historyButton);
         historyBtn.setOnClickListener(new View.OnClickListener() {
             @Override

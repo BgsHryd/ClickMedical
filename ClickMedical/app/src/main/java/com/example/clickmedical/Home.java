@@ -38,12 +38,14 @@ public class Home extends AppCompatActivity {
         while(!db.taskQueryCustomer.isSuccessful());
         System.out.println(db.currentUser);
 
+        // nampilin nama di pojok kiri atas
         if (firebaseUser != null) {
             name.setText(firebaseUser.getDisplayName());
         }else{
             name.setText("Login gagal");
         }
 
+        // buat navigasi pindah ke layar lain
         profilebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

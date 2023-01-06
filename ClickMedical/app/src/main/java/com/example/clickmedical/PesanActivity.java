@@ -62,11 +62,12 @@ public class PesanActivity extends AppCompatActivity {
             }
         });
 
+        // ini kalo user pengen nambahin bookmark
+        // tinggal tap and hold rumah sakit yang pengen ditambahin bookmark
         listViewRS.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // pop up dialog asking wheter the user want this
-                // hospital to becoma a bookmark or not
+                // pop up dialog asking whether the user want this hospital to become a bookmark or not
                 RumahSakit target = db.listRS.get(position);
                 builder.setTitle("Add Bookmark")
                 .setMessage("Menambahkan " + target.getNama() + " ke bookmark?")
@@ -85,19 +86,25 @@ public class PesanActivity extends AppCompatActivity {
             }
         });
 
+        // case kalo RumahSakit nya dipencet
         listViewRS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RumahSakit rs = db.listRS.get(position);
+                // simpen rumah sakit yang akan dipesan
                 saver.RS = rs;
+
+                // queryin kamar disini biar nanti waktu pindah activity bisa langsung muncul
                 db.getQueryKamar("Kamar", position);
                 while (!db.taskQueryKamar.isComplete()) ;
+                // pindah activity ke ListKamarActivity
                 startActivity(new Intent(getApplicationContext(), ListKamarActivity.class));
             }
         });
     }
 
     private void filterList(String newText) {
+        // filter berdasarkan text yang diinput user di tempat search
         ArrayList<RumahSakit> filteredList = new ArrayList<>();
         for (RumahSakit rs : db.listRS){
             if (rs.getNama().toLowerCase().contains(newText.toLowerCase())){
@@ -111,6 +118,7 @@ public class PesanActivity extends AppCompatActivity {
         }
     }
     private boolean checkBookmarkExist(RumahSakit rs){
+        // check rumah sakit yang pengen dibookmark udah di bookmark atau belum
         for (int i = 0; i < db.listBookmarks.size(); i++){
             if (rs.getRSID().equals(db.listBookmarks.get(i).getRSID())){
                 return true;
@@ -119,6 +127,7 @@ public class PesanActivity extends AppCompatActivity {
         return false;
     }
     private void addRSToListBookmark(RumahSakit rs){
+        // nambahin rumah sakit ke dalam list bookmark dan juga ke dalam database
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
         Map<String, Object> mapBookmark = new HashMap<>();
         mapBookmark.put("CustomerID", firestoreDB.document("Customer/" + db.currentUser.getId()));

@@ -46,30 +46,37 @@ public class HistoryActivity extends AppCompatActivity {
         while(!dbHelp.taskQueryKamar.isComplete());
         String userID = dbHelp.currentUser.getId();
 
+        // query rumah sakit
         firestoreDB.collection("Pesanan")
-                .whereEqualTo("customerID", firestoreDB.document("Customer/"+userID))
-                .whereEqualTo("accepted", true)
+                .whereEqualTo("customerID", firestoreDB.document("Customer/"+userID))//syarat query customerID harus sama dengan id user yang lagi login
+                .whereEqualTo("accepted", true)// syarat query harus pesanan yang sudah di acc
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
                             for (QueryDocumentSnapshot document : task.getResult()){
+                                // ambil data dari hasil query
                                 String kamarID = document.getDocumentReference("kamarID").getId();
                                 Kamar kamarTarget = searchKamarbyID(dbHelp.listKamar, kamarID);
                                 RumahSakit rsTarget = searchRumahSakitbyID(dbHelp.listRS, kamarTarget.getRSID());
                                 Date tanggalPesan = document.getTimestamp("tanggal").toDate();
+
+                                // tambahkan data history ke dalam ArrayList
                                 namaHospitals.add(rsTarget.getNama());
                                 histList.add(new History(dbHelp.currentUser.getNama(), kamarTarget.getNama(), rsTarget.getNama(),
                                         dbHelp.currentUser.getId(), kamarTarget.getKamarId(), rsTarget.getRSID(), tanggalPesan));
                             }
-                            // lanjut kode disini
+                            // kode yang akan dieksekusi setelah selesai query
                             try {
                                 TimeUnit.SECONDS.sleep(1);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            // mengambil data image
                             int[] imagesRS = getImageRS(dbHelp.listRS, namaHospitals);
+
+                            // nempel data history ke dalam ListView
                             CustomBaseAdapterHist adapter = new CustomBaseAdapterHist(getApplicationContext(), histList, imagesRS);
                             histories.setAdapter(adapter);
                         }else{
@@ -79,6 +86,9 @@ public class HistoryActivity extends AppCompatActivity {
                 });
     }
     public RumahSakit searchRumahSakitbyID(ArrayList<RumahSakit> list, String id){
+        /*
+        *  mencari rumah sakit berdasarkan id rumah sakit
+        * */
         for (RumahSakit rs: list){
             if (rs.getRSID().equals(id)){
                 return rs;
@@ -87,6 +97,7 @@ public class HistoryActivity extends AppCompatActivity {
         return null;
     }
     public Kamar searchKamarbyID(ArrayList<Kamar> list, String id){
+        // mencari kamar berdasarkan id kamar
         for (Kamar room: list){
             if (room.getKamarId().equals(id)){
                 return room;
@@ -95,6 +106,8 @@ public class HistoryActivity extends AppCompatActivity {
         return null;
     }
     public int[] getImageRS(ArrayList<RumahSakit> hospitals, ArrayList<String> namaHospitals){
+        // mengambil image rumah sakit berdasarkan nama yang ada pada list namaHospitals
+
         int[] result = new int[namaHospitals.size()];
         DBHelper dbHelp = new DBHelper();
 

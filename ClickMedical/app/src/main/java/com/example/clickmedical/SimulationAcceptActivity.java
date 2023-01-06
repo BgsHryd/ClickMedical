@@ -29,6 +29,8 @@ public class SimulationAcceptActivity extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // SIMULASI ACCEPT PESANAN
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulation_accept);
 

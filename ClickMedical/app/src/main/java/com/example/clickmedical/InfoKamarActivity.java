@@ -50,6 +50,7 @@ public class InfoKamarActivity extends AppCompatActivity {
         hargaKamar = findViewById(R.id.hargaKamar);
         orderButton = findViewById(R.id.orderButton);
 
+        // nampilin data ke layar
         imageKamar.setImageResource(saver.getImageKamar());
         namaRS.setText(RStarget.getNama());
         namaKamar.setText(": "+kamarTarget.getNama());
@@ -57,11 +58,14 @@ public class InfoKamarActivity extends AppCompatActivity {
         jumlahKamar.setText(": "+kamarTarget.getJumlah() + " Kamar");
         hargaKamar.setText(": Rp." + giveDotToHarga(kamarTarget.getHarga()) + ",00");
 
+        // inisialisasi dialog pop up
         builder = new AlertDialog.Builder(this);
 
+        // case kalo tombol pesan ditekan
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // menambahkan rule ke dalam dialog
                 builder.setTitle("Konfirmasi pesanan")
                         .setMessage("Yakin melakukan pesanan?")
                         .setCancelable(true)
@@ -69,6 +73,7 @@ public class InfoKamarActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // nanti disini kirim data ke RS
+                                // kalo tekan yes nanti dia akan menambahkan pesanan ke dalam DB
                                 addPesananToDB();
                                 startActivity(new Intent(getApplicationContext(), SimulationAcceptActivity.class));
                             }
@@ -76,6 +81,7 @@ public class InfoKamarActivity extends AppCompatActivity {
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                // kalo tekan no entar si pop up nya ilang
                                 dialog.cancel();
                             }
                         })
@@ -84,6 +90,8 @@ public class InfoKamarActivity extends AppCompatActivity {
         });
     }
     public Map<String, Object> createHashMapPesanan(String custId, String kamarId, boolean status){
+        // membuat hashmap pesanan biar gampang nambahinnya ke dalam firebase
+
         Map<String, Object> result = new HashMap<>();
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
 
@@ -96,6 +104,7 @@ public class InfoKamarActivity extends AppCompatActivity {
         return result;
     }
     public void addPesananToDB(){
+        // nambahin data pesanan ke dalam database
         Pesanan res;
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
         Map<String, Object> map;
@@ -126,6 +135,7 @@ public class InfoKamarActivity extends AppCompatActivity {
     }
 
     public String giveDotToHarga(int harga){
+        // biar waktu nampilin harga ada titik yang misahin ribuan
         String strHarga = Integer.toString(harga);
         int len = strHarga.length();
         int count_three = 0; String result = "";

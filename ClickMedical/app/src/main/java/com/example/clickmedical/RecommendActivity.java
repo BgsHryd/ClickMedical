@@ -60,6 +60,8 @@ public class RecommendActivity extends AppCompatActivity {
         recPesanBtn = findViewById(R.id.recPesanButton);
 
         getLastLocation(); // panggil ini buat dapetin lokasi disimpen di variable lokasi
+
+        // case kalo tombol pesan ditekan
         recPesanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +73,7 @@ public class RecommendActivity extends AppCompatActivity {
         });
     }
     private void getLastLocation(){
+        // ambil data lokasi
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -100,12 +103,14 @@ public class RecommendActivity extends AppCompatActivity {
         }
     }
     private void askPermission(){
+        // minta permission ke user buat ngambil data lokasi
         ActivityCompat.requestPermissions(RecommendActivity.this, new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // kalo diizinin pake lokasi maka ambil lokasi
         if (requestCode == REQUEST_CODE){
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getLastLocation();
@@ -118,6 +123,8 @@ public class RecommendActivity extends AppCompatActivity {
     }
 
     private int getIdxClosestHospital(double latitude, double longitude){
+        // return index rumah sakit yang terdekat dengan user
+        // jarak dihitung dengan euclidean
         int idxRes = 0;
         RumahSakit temp = dbHelper.listRS.get(idxRes);
         double minDistance = euclideanDistance(latitude, longitude, temp.getLatitude(), temp.getLongitude());
@@ -132,6 +139,7 @@ public class RecommendActivity extends AppCompatActivity {
         return idxRes;
     }
 
+    // perhitungan euclidean distance
     private double euclideanDistance(double x1, double y1, double x2, double y2){
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
