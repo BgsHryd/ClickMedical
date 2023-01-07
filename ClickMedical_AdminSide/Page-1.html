@@ -15,6 +15,107 @@
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Page 1">
     <meta property="og:type" content="website">
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+      import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+      import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyAvR35Xo5E8noZKufIH2vPnL73N7TswC_o",
+        authDomain: "click-medical.firebaseapp.com",
+        projectId: "click-medical",
+        storageBucket: "click-medical.appspot.com",
+        messagingSenderId: "439722611085",
+        appId: "1:439722611085:web:6c2d95b1316b48ca87adc4",
+        measurementId: "G-T707XRCC9X"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getFirestore(app);
+      
+      const auth = getAuth();
+      const uncheck_order = [];
+
+      // array to save data pemesan
+      const names = [];
+      const emails = [];
+      const  kamarNames = [];
+      const kamarPrices = [];
+
+      let email = "";
+      onAuthStateChanged(auth, (user) => {
+          if (user){
+            email = user.email;
+          }
+        });
+      
+      // query customer
+      const qCust = query(collection(db, "Customer"));
+      const querySnapshotCust = await getDocs(qCust); // this can be array of customer
+      
+      // query RumahSakit
+      const qRS = query(collection(db, "RumahSakit"));
+      const querySnapshotRS = await getDocs(qRS); // this can be array of RS
+
+      // query Kamar
+      const qKamar = query(collection(db, "Kamar"));
+      const querySnapshotKamar = await getDocs(qKamar); // this can be array of Kamar
+      
+      // query pesanan filter uncheck and check hospital name
+      const q = query(collection(db, "Pesanan"), where("checked", "==", false));
+      const querySnapshot = await getDocs(q); // this can be array of pesanan
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, "=>", doc.data());
+        const kamarID = doc.get("kamarID").id;
+
+        querySnapshotKamar.forEach((kamar) => {
+          if (kamarID == kamar.id){
+            const RSID = kamar.get("RSID").id;
+
+            querySnapshotRS.forEach((rs) => {
+              if (rs.get("email") == "santosa@mail.com" && uncheck_order.length < 5){
+                console.log("one order added to array");
+                uncheck_order.push(doc);
+              }
+            });
+          }
+        });
+      });
+      // filtered query will be in uncheck_order array
+
+      uncheck_order.forEach((order) =>{
+        const custID = order.get("customerID").id;
+        querySnapshotCust.forEach((cust) =>{
+          if (custID == cust.id){
+            names.push(cust.get("nama"));
+            emails.push(cust.get("email"));
+          }
+        });
+        const kamarID = order.get("kamarID").id;
+        querySnapshotKamar.forEach((kamar) => {
+          if (kamarID == kamar.id){
+            kamarNames.push(kamar.get("nama"));
+            kamarPrices.push(kamar.get("harga"));
+          }
+        });
+      });
+
+      // data pemesan tinggal masukkin ke dalem pop up
+      console.log(names);
+      console.log(emails);
+      console.log(kamarNames);
+      console.log(kamarPrices);
+    </script>
+    
   </head>
   <body class="u-body u-xl-mode" data-lang="en">
     <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="" data-image-width="1920" data-image-height="1080" id="sec-fba1">
@@ -66,6 +167,18 @@
             <img class="u-image u-image-default u-preserve-proportions u-image-6" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
         </div>
+
+        <!-- <div class="box" data-href="#sec-39df">
+          <h2>List Pesanan</h2>
+          <ul>
+            <li><span>1</span>List Item One</li>
+            <li><span>2</span>List Item Two</li>
+            <li><span>3</span>List Item Three</li>
+            <li><span>4</span>List Item Four</li>
+            <li><span>5</span>List Item Five</li>
+            <li><span>6</span>List Item Six</li>
+          </ul>
+        </div> -->
 
       </div>
     </section>
@@ -154,7 +267,8 @@
 
         </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
       </div>
-
+      
+      
           <!-- CSS Styling, ignore -->
 
       <style class="u-btn-1 u-state-style">.u-dialog-section-4 .u-btn-1, .u-dialog-section-4 .u-btn-1:before, .u-dialog-section-4 .u-btn-1 > .u-container-layout:before {
