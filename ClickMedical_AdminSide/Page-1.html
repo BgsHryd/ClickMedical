@@ -20,7 +20,7 @@
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
       import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-      import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+      import { collection, query, where, getDocs, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
@@ -46,6 +46,7 @@
       const uncheck_order = [];
 
       // array to save data pemesan
+      const idOrders = []
       const names = [];
       const emails = [];
       const  kamarNames = [];
@@ -93,6 +94,7 @@
       // filtered query will be in uncheck_order array
 
       uncheck_order.forEach((order) =>{
+        idOrders.push(order.id);
         const custID = order.get("customerID").id;
         querySnapshotCust.forEach((cust) =>{
           if (custID == cust.id){
@@ -108,12 +110,33 @@
           }
         });
       });
-
       // data pemesan tinggal masukkin ke dalem pop up
       console.log(names);
       console.log(emails);
       console.log(kamarNames);
       console.log(kamarPrices);
+
+      document.getElementById("pesanKamar").innerHTML = kamarNames[0];
+      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[0] + ",00";
+      document.getElementById("namaPemesan").innerHTML = names[0];
+      document.getElementById("emailPemesan").innerHTML = emails[0];
+
+      rejectOrder.addEventListener('click', (e) => {
+        const orderRef = doc(db, "Pesanan", idOrders[0]);
+        updateDoc(orderRef, {
+          checked: true,
+          accepted: false
+        });
+      });
+
+      acceptOrder.addEventListener('click', (e) => {
+        const orderRef = doc(db, "Pesanan", idOrders[0]);
+        updateDoc(orderRef, {
+          checked: true,
+          accepted: true
+        });
+      });
+
     </script>
     
   </head>
@@ -199,7 +222,7 @@
 
                   <!-- Nama Pemesan here -->
                   <!-- Ku masih bingung pindahin variable js ke html gomen -->
-                  <p class="u-text u-text-default u-text-3"> nama pemesan</p>
+                  <p class="u-text u-text-default u-text-3" id = "namaPemesan"> nama pemesan</p>
 
                 </div>
               </div>
@@ -213,7 +236,7 @@
                 <div class="u-container-layout u-container-layout-5">
 
                   <!-- Email Pemesan here -->
-                  <p class="u-text u-text-default u-text-5">Email pemesan</p>
+                  <p class="u-text u-text-default u-text-5" id = "emailPemesan">Email pemesan</p>
 
                 </div>
               </div>
@@ -228,7 +251,7 @@
                 <div class="u-container-layout u-valign-middle u-container-layout-7">
 
                   <!-- Kamar Pemesan here -->
-                  <p class="u-text u-text-default u-text-8">Nama Kamar dipesan</p>
+                  <p class="u-text u-text-default u-text-8" id = "pesanKamar">Nama Kamar dipesan</p>
 
                 </div>
               </div>
@@ -241,7 +264,7 @@
                 <div class="u-container-layout u-container-layout-9">
 
                   <!-- Harga Kamar here -->
-                  <p class="u-text u-text-default u-text-10">Harga Kamar dipesan</p>
+                  <p class="u-text u-text-default u-text-10" id = "pesanHarga">Harga Kamar dipesan</p>
 
                 </div>
               </div>
@@ -254,15 +277,20 @@
           </div>
 
           <!-- IF TOLAK DO here (return to page)-->
-          <a href="Page-1.html" 
-          class="u-active-custom-color-6 u-border-2 u-border-grey-75 u-btn u-button-style u-custom-color-6 u-hover-custom-color-5 u-hover-feature u-btn-1">TOLAK
+          <a onclick="setTimeout(delayAlert, 2000)"
+          class="u-active-custom-color-6 u-border-2 u-border-grey-75 u-btn u-button-style u-custom-color-6 u-hover-custom-color-5 u-hover-feature u-btn-1" id = "rejectOrder">TOLAK
           <!-- Script here -->
           </a>
 
           <!-- IF Accept DO here (return to page)-->
-          <a href="Page-1.html" 
-          class="u-active-palette-4-dark-3 u-border-2 u-border-grey-75 u-btn u-button-style u-file-link u-hover-palette-4-light-1 u-palette-4-base u-text-black u-btn-2">terima
+          <a onclick="setTimeout(delayAlert, 2000)"
+          class="u-active-palette-4-dark-3 u-border-2 u-border-grey-75 u-btn u-button-style u-file-link u-hover-palette-4-light-1 u-palette-4-base u-text-black u-btn-2" id = "acceptOrder">terima
           <!-- Script here -->
+          <script>
+            function delayAlert(){
+              alert("Pesanan berhasil diproeses");
+            }
+          </script>
           </a>
 
         </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
