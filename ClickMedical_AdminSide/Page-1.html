@@ -1,191 +1,187 @@
-<!DOCTYPE html>
-<html style="font-size: 16px;" lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="keywords" content="INTUITIVE">
-    <meta name="description" content="">
-    <title>Page 1</title>
-    <link rel="stylesheet" href="nicepage.css" media="screen">
+<!DOCTYPE html> 
+  <html style="font-size: 16px;" lang="en"><head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="keywords" content="INTUITIVE">
+  <meta name="description" content="">
+  <title>Page 1</title>
+  <link rel="stylesheet" href="nicepage.css" media="screen">
 <link rel="stylesheet" href="Page-1.css" media="screen">
-    <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
-    <meta name="generator" content="Nicepage 5.2.4, nicepage.com">
-    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+  <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
+  <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+  <meta name="generator" content="Nicepage 5.2.4, nicepage.com">
+  <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
 
-    <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Page 1">
-    <meta property="og:type" content="website">
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-      import { collection, query, where, getDocs, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-      import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
+  <meta name="theme-color" content="#478ac9">
+  <meta property="og:title" content="Page 1">
+  <meta property="og:type" content="website">
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+    import { collection, query, where, getDocs, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvR35Xo5E8noZKufIH2vPnL73N7TswC_o",
+      authDomain: "click-medical.firebaseapp.com",
+      projectId: "click-medical",
+      storageBucket: "click-medical.appspot.com",
+      messagingSenderId: "439722611085",
+      appId: "1:439722611085:web:6c2d95b1316b48ca87adc4",
+      measurementId: "G-T707XRCC9X"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
     
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyAvR35Xo5E8noZKufIH2vPnL73N7TswC_o",
-        authDomain: "click-medical.firebaseapp.com",
-        projectId: "click-medical",
-        storageBucket: "click-medical.appspot.com",
-        messagingSenderId: "439722611085",
-        appId: "1:439722611085:web:6c2d95b1316b48ca87adc4",
-        measurementId: "G-T707XRCC9X"
-      };
+    const auth = getAuth();
+    const uncheck_order = [];
+
+    // array to save data pemesan
+    const idOrders = []
+    const names = [];
+    const emails = [];
+    const  kamarNames = [];
+    const kamarPrices = [];
+
+    let email = "";
+    onAuthStateChanged(auth, (user) => {
+        if (user){
+          email = user.email;
+        }
+      });
     
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-      const db = getFirestore(app);
-      
-      const auth = getAuth();
-      const uncheck_order = [];
-
-      // array to save data pemesan
-      const idOrders = []
-      const names = [];
-      const emails = [];
-      const  kamarNames = [];
-      const kamarPrices = [];
-
-      let email = "";
-      onAuthStateChanged(auth, (user) => {
-          if (user){
-            email = user.email;
-          }
-        });
-      
-      // query customer
-      const qCust = query(collection(db, "Customer"));
-      const querySnapshotCust = await getDocs(qCust); // this can be array of customer
-      
-      // query RumahSakit
-      const qRS = query(collection(db, "RumahSakit"));
-      const querySnapshotRS = await getDocs(qRS); // this can be array of RS
-
-      // query Kamar
-      const qKamar = query(collection(db, "Kamar"));
-      const querySnapshotKamar = await getDocs(qKamar); // this can be array of Kamar
-      
-      // query pesanan filter uncheck and check hospital name
-      const q = query(collection(db, "Pesanan"), where("checked", "==", false));
-      const querySnapshot = await getDocs(q); // this can be array of pesanan
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, "=>", doc.data());
-        const kamarID = doc.get("kamarID").id;
-
-        querySnapshotKamar.forEach((kamar) => {
-          if (kamarID == kamar.id){
-            const RSID = kamar.get("RSID").id;
-
-            querySnapshotRS.forEach((rs) => {
-              if (rs.get("email") == "santosa@mail.com" && uncheck_order.length < 5){
-                console.log("one order added to array");
-                uncheck_order.push(doc);
-              }
-            });
-          }
-        });
-      });
-      // filtered query will be in uncheck_order array
-
-      uncheck_order.forEach((order) =>{
-        idOrders.push(order.id);
-        const custID = order.get("customerID").id;
-        querySnapshotCust.forEach((cust) =>{
-          if (custID == cust.id){
-            names.push(cust.get("nama"));
-            emails.push(cust.get("email"));
-          }
-        });
-        const kamarID = order.get("kamarID").id;
-        querySnapshotKamar.forEach((kamar) => {
-          if (kamarID == kamar.id){
-            kamarNames.push(kamar.get("nama"));
-            kamarPrices.push(kamar.get("harga"));
-          }
-        });
-      });
-      // data pemesan tinggal masukkin ke dalem pop up
-      console.log(names);
-      console.log(emails);
-      console.log(kamarNames);
-      console.log(kamarPrices);
-
-      document.getElementById("pesanKamar").innerHTML = kamarNames[0];
-      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[0] + ",00";
-      document.getElementById("namaPemesan").innerHTML = names[0];
-      document.getElementById("emailPemesan").innerHTML = emails[0];
-
-      rejectOrder.addEventListener('click', (e) => {
-        const orderRef = doc(db, "Pesanan", idOrders[0]);
-        updateDoc(orderRef, {
-          checked: true,
-          accepted: false
-        });
-      });
-
-      acceptOrder.addEventListener('click', (e) => {
-        const orderRef = doc(db, "Pesanan", idOrders[0]);
-        updateDoc(orderRef, {
-          checked: true,
-          accepted: true
-        });
-      });
-
-    </script>
+    // query customer
+    const qCust = query(collection(db, "Customer"));
+    const querySnapshotCust = await getDocs(qCust); // this can be array of customer
     
-  </head>
-  <body class="u-body u-xl-mode" data-lang="en">
-    <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="" data-image-width="1920" data-image-height="1080" id="sec-fba1">
-      <div class="u-clearfix u-sheet u-sheet-1">
-        <h1 class="u-text u-text-default u-title u-text-1">CLICK MEDICAL </h1>
-        <img class="u-image u-image-contain u-image-default u-image-1" src="images/ClickMedical.png" alt="" data-image-width="388" data-image-height="455">
+    // query RumahSakit
+    const qRS = query(collection(db, "RumahSakit"));
+    const querySnapshotRS = await getDocs(qRS); // this can be array of RS
 
-        <!-- Box select 1-->
+    // query Kamar
+    const qKamar = query(collection(db, "Kamar"));
+    const querySnapshotKamar = await getDocs(qKamar); // this can be array of Kamar
+    
+    // query pesanan filter uncheck and check hospital name
+    const q = query(collection(db, "Pesanan"), where("checked", "==", false));
+    const querySnapshot = await getDocs(q); // this can be array of pesanan
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data());
+      const kamarID = doc.get("kamarID").id;
 
-        <div class="u-container-style u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-1" 
-        data-href="#sec-39df">
+      querySnapshotKamar.forEach((kamar) => {
+        if (kamarID == kamar.id){
+          const RSID = kamar.get("RSID").id;
+
+          querySnapshotRS.forEach((rs) => {
+            if (rs.get("email") == "santosa@mail.com" && uncheck_order.length < 5){
+              console.log("one order added to array");
+              uncheck_order.push(doc);
+            }
+          });
+        }
+      });
+    });
+    // filtered query will be in uncheck_order array
+
+    uncheck_order.forEach((order) =>{
+      idOrders.push(order.id);
+      const custID = order.get("customerID").id;
+      querySnapshotCust.forEach((cust) =>{
+        if (custID == cust.id){
+          names.push(cust.get("nama"));
+          emails.push(cust.get("email"));
+        }
+      });
+      const kamarID = order.get("kamarID").id;
+      querySnapshotKamar.forEach((kamar) => {
+        if (kamarID == kamar.id){
+          kamarNames.push(kamar.get("nama"));
+          kamarPrices.push(kamar.get("harga"));
+        }
+      });
+    });
+    // data pemesan tinggal masukkin ke dalem pop up
+    console.log(names);
+    console.log(emails);
+    console.log(kamarNames);
+    console.log(kamarPrices);
+
+    document.getElementById("pesanKamar").innerHTML = kamarNames[0];
+    document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[0] + ",00";
+    document.getElementById("namaPemesan").innerHTML = names[0];
+    document.getElementById("emailPemesan").innerHTML = emails[0];
+
+    rejectOrder.addEventListener('click', (e) => {
+      const orderRef = doc(db, "Pesanan", idOrders[0]);
+      updateDoc(orderRef, {
+        checked: true,
+        accepted: false
+      });
+    });
+
+    acceptOrder.addEventListener('click', (e) => {
+      const orderRef = doc(db, "Pesanan", idOrders[0]);
+      updateDoc(orderRef, {
+        checked: true,
+        accepted: true
+      });
+    });
+
+  </script>
+
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+  <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="" data-image-width="1920" data-image-height="1080" id="sec-fba1">
+    <div class="u-clearfix u-sheet u-sheet-1">
+      <h1 class="u-text u-text-default u-title u-text-1">CLICK MEDICAL </h1>
+      <img class="u-image u-image-contain u-image-default u-image-1" src="images/ClickMedical.png" alt="" data-image-width="388" data-image-height="455">
+        
+        <!-- Box select 1 -->
+
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-1" data-href="#sec-39df">
           <div class="u-container-layout u-container-layout-1">
             <img class="u-image u-image-default u-preserve-proportions u-image-2" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
         </div>
 
-        <!-- Box select 2-->
+        <!-- Box select 2 -->
 
-        <div class="u-container-style u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-2" 
-        data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-2" data-href="#sec-39df">
           <div class="u-container-layout u-container-layout-2">
             <img class="u-image u-image-default u-preserve-proportions u-image-3" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
         </div>
 
-        <!-- Box select 3-->
+        <!-- Box select 3 -->
 
-        <div class="u-container-style u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-3" 
-        data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-3" data-href="#sec-39df">
           <div class="u-container-layout u-container-layout-3">
             <img class="u-image u-image-default u-preserve-proportions u-image-4" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
         </div>
 
-        <!-- Box select 4-->
+        <!-- Box select 4 -->
 
-        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-4" 
-        data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-4" data-href="#sec-39df">
           <div class="u-container-layout u-container-layout-4">
             <img class="u-image u-image-default u-preserve-proportions u-image-5" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
         </div>
 
-        <!-- Box select 5-->
+        <!-- Box select 5 -->
 
-        <div class="u-container-style u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-5" 
-        data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-5" data-href="#sec-39df">
           <div class="u-container-layout u-container-layout-5">
             <img class="u-image u-image-default u-preserve-proportions u-image-6" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
@@ -208,7 +204,7 @@
 
     <!-- Pop up box for accept / decline -->
 
-  <section class="u-align-center u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-dialog-section-4" id="sec-39df">
+    <section class="u-align-center u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-dialog-section-4" id="sec-39df">
       <div class="u-align-center u-container-style u-dialog u-palette-1-light-2 u-dialog-1">
         <div class="u-container-layout u-container-layout-1">
           <img class="u-image u-image-contain u-image-default u-preserve-proportions u-image-1" src="images/plus.png" alt="" data-image-width="512" data-image-height="512">
@@ -296,449 +292,400 @@
         </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
       </div>
       
-      
-          <!-- CSS Styling, ignore -->
+      <!-- CSS Styling, ignore -->
 
       <style class="u-btn-1 u-state-style">.u-dialog-section-4 .u-btn-1, .u-dialog-section-4 .u-btn-1:before, .u-dialog-section-4 .u-btn-1 > .u-container-layout:before {
-    transition-property: fill, color, background-color, stroke-width, border-style, border-width, border-top-width, border-left-width, border-right-width, border-bottom-width, custom-border, borders, box-shadow, text-shadow, opacity, border-radius, stroke, border-color, font-size, font-style, font-weight, text-decoration, letter-spacing, transform, background-image, image-zoom, background-size, background-position
-}
-.u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1:hover {
-    box-shadow: 2px 2px 8px 0px rgba(var(--grey-50-r),var(--grey-50-g),var(--grey-50-b),1) !important
-}
-.u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1.hover {
-    box-shadow: 2px 2px 8px 0px rgba(var(--grey-50-r),var(--grey-50-g),var(--grey-50-b),1) !important
-} </style>
-    </section><style>.u-dialog-section-4 .u-dialog-1 {
-  width: 694px;
-  min-height: 650px;
-  height: auto;
-  margin: -24px calc(((100% - 1140px) / 2) + 218px) 60px auto;
-}
-
-.u-dialog-section-4 .u-container-layout-1 {
-  padding: 19px 30px;
-}
-
-.u-dialog-section-4 .u-image-1 {
-  width: 193px;
-  height: 193px;
-  margin: 31px auto 0;
-}
-
-.u-dialog-section-4 .u-text-1 {
-  font-weight: 700;
-  margin: 0 auto;
-}
-
-.u-dialog-section-4 .u-group-1 {
-  margin-top: 13px;
-  margin-bottom: 0;
-  background-image: none;
-  min-height: 395px;
-  height: auto;
-}
-
-.u-dialog-section-4 .u-container-layout-2 {
-  padding: 8px 26px;
-}
-
-.u-dialog-section-4 .u-text-2 {
-  font-weight: 700;
-  margin: 35px auto 0 4px;
-}
-
-.u-dialog-section-4 .u-group-2 {
-  width: 401px;
-  min-height: 45px;
-  margin: 13px 3px 0 auto;
-}
-
-.u-dialog-section-4 .u-container-layout-3 {
-  padding: 8px 22px;
-}
-
-.u-dialog-section-4 .u-text-3 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 0 auto 0 0;
-}
-
-.u-dialog-section-4 .u-group-3 {
-  width: 182px;
-  min-height: 46px;
-  margin: -45px auto 0 4px;
-}
-
-.u-dialog-section-4 .u-container-layout-4 {
-  padding: 11px 14px;
-}
-
-.u-dialog-section-4 .u-text-4 {
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin: 0 auto -19px 0;
-}
-
-.u-dialog-section-4 .u-group-4 {
-  width: 401px;
-  min-height: 46px;
-  margin: 14px 3px 0 auto;
-}
-
-.u-dialog-section-4 .u-container-layout-5 {
-  padding: 10px 22px;
-}
-
-.u-dialog-section-4 .u-text-5 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 0 24px -20px 0;
-}
-
-.u-dialog-section-4 .u-group-5 {
-  width: 182px;
-  min-height: 46px;
-  margin: -46px auto 0 4px;
-}
-
-.u-dialog-section-4 .u-container-layout-6 {
-  padding: 11px 14px;
-}
-
-.u-dialog-section-4 .u-text-6 {
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin: 0 auto -19px 0;
-}
-
-.u-dialog-section-4 .u-text-7 {
-  font-weight: 700;
-  margin: 24px auto 0 4px;
-}
-
-.u-dialog-section-4 .u-group-6 {
-  width: 411px;
-  min-height: 44px;
-  margin: 19px 0 0 auto;
-}
-
-.u-dialog-section-4 .u-container-layout-7 {
-  padding: 8px 30px;
-}
-
-.u-dialog-section-4 .u-text-8 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 0 auto 0 0;
-}
-
-.u-dialog-section-4 .u-group-7 {
-  width: 182px;
-  min-height: 46px;
-  margin: -45px auto 0 4px;
-}
-
-.u-dialog-section-4 .u-container-layout-8 {
-  padding: 4px 14px;
-}
-
-.u-dialog-section-4 .u-text-9 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 9px auto -26px 0;
-}
-
-.u-dialog-section-4 .u-group-8 {
-  width: 411px;
-  min-height: 43px;
-  margin: 19px 0 0 auto;
-}
-
-.u-dialog-section-4 .u-container-layout-9 {
-  padding: 8px 30px;
-}
-
-.u-dialog-section-4 .u-text-10 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 0 157px -22px 0;
-}
-
-.u-dialog-section-4 .u-group-9 {
-  width: 182px;
-  min-height: 46px;
-  margin: -46px auto 0 4px;
-}
-
-.u-dialog-section-4 .u-container-layout-10 {
-  padding: 9px 14px;
-}
-
-.u-dialog-section-4 .u-text-11 {
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin: 0 auto -21px 0;
-}
-
-.u-dialog-section-4 .u-btn-1 {
-  border-style: none;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition-duration: 0.5s;
-  box-shadow: 2px 0 0 0 rgba(0,0,0,0);
-  margin: 24px auto 0 78px;
-}
-
-.u-dialog-section-4 .u-btn-2 {
-  border-style: none;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background-image: none;
-  font-weight: 700;
-  margin: -45px 78px 0 auto;
-}
-
-.u-dialog-section-4 .u-icon-1 {
-  width: 15px;
-  height: 15px;
-  left: auto;
-  top: 17px;
-  position: absolute;
-  right: 16px;
-}
-
-@media (max-width: 700px) {
-  .u-dialog-section-4 .u-dialog-1 {
-    width: 600px;
-    margin-right: calc(((80% - 940px) / 2) + 218px);
-  }
-
-  .u-dialog-section-4 .u-image-1 {
-    width: 193px;
-  }
-
-  .u-dialog-section-4 .u-group-1 {
-    height: auto;
-  }
-
-  .u-dialog-section-4 .u-text-2 {
-    margin-left: 4px;
-  }
-
-  .u-dialog-section-4 .u-group-2 {
-    width: 401px;
-    margin-right: 3px;
-  }
-
-  .u-dialog-section-4 .u-text-3 {
-    margin-top: -33px;
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-group-3 {
-    width: 182px;
-    min-height: 46px;
-    margin-top: -45px;
-    margin-left: 4px;
-  }
-
-  .u-dialog-section-4 .u-text-4 {
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-group-4 {
-    width: 401px;
-    min-height: 46px;
-    margin-right: 3px;
-  }
-
-  .u-dialog-section-4 .u-text-5 {
-    margin-right: 24px;
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-group-5 {
-    width: 182px;
-    min-height: 46px;
-    margin-top: -46px;
-    margin-left: 4px;
-  }
-
-  .u-dialog-section-4 .u-text-6 {
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-text-7 {
-    margin-left: 4px;
-  }
-
-  .u-dialog-section-4 .u-group-6 {
-    margin-right: 0;
-  }
-
-  .u-dialog-section-4 .u-group-7 {
-    width: 182px;
-    min-height: 46px;
-    margin-left: 4px;
-  }
-
-  .u-dialog-section-4 .u-text-9 {
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-group-8 {
-    width: 411px;
-    min-height: 43px;
-    margin-right: 0;
-  }
-
-  .u-dialog-section-4 .u-text-10 {
-    margin-right: 157px;
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-group-9 {
-    width: 182px;
-    margin-top: -46px;
-    margin-left: 4px;
-  }
-
-  .u-dialog-section-4 .u-text-11 {
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-btn-1 {
-    margin-left: 78px;
-  }
-}
-
-@media (max-width: 700px) {
-  .u-dialog-section-4 .u-dialog-1 {
-    margin-right: calc(((80% - 720px) / 2) + 26px);
-  }
-
-  .u-dialog-section-4 .u-container-layout-1 {
-    padding-top: 40px;
-  }
-}
-
-@media (max-width: 767px) {
-  .u-dialog-section-4 .u-dialog-1 {
-    width: 540px;
-    margin-right: calc(((80% - 540px) / 2));
-  }
-
-  .u-dialog-section-4 .u-container-layout-1 {
-    padding-top: 19px;
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-2 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-3 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-4 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-5 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-6 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-7 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-8 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-9 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-text-10 {
-    margin-right: 175px;
-  }
-
-  .u-dialog-section-4 .u-container-layout-10 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .u-dialog-section-4 .u-btn-1 {
-    margin-left: 0;
-  }
-
-  .u-dialog-section-4 .u-btn-2 {
-    margin-right: 0;
-  }
-}
-
-@media (max-width: 575px) {
-  .u-dialog-section-4 .u-dialog-1 {
-    width: 340px;
-    margin-right: calc(((80% - 340px) / 2));
-  }
-
-  .u-dialog-section-4 .u-container-layout-1 {
-    padding-top: 40px;
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-
-  .u-dialog-section-4 .u-group-2 {
-    width: 300px;
-    margin-right: 0;
-  }
-
-  .u-dialog-section-4 .u-group-4 {
-    width: 300px;
-    margin-right: 0;
-  }
-
-  .u-dialog-section-4 .u-group-6 {
-    width: 300px;
-  }
-
-  .u-dialog-section-4 .u-group-8 {
-    width: 300px;
-  }
-
-  .u-dialog-section-4 .u-text-10 {
-    margin-right: 125px;
-  }
-}
-
-.u-dialog-section-4 .u-btn-1,
-.u-dialog-section-4 .u-btn-1:before,
-.u-dialog-section-4 .u-btn-1 > .u-container-layout:before {
-  transition-property: fill, color, background-color, stroke-width, border-style, border-width, border-top-width, border-left-width, border-right-width, border-bottom-width, custom-border, borders, box-shadow, text-shadow, opacity, border-radius, stroke, border-color, font-size, font-style, font-weight, text-decoration, letter-spacing, transform, background-image, image-zoom, background-size, background-position;
-}
-
-.u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1:hover {
-  box-shadow: 2px 2px 8px 0px rgba(128,128,128,1) !important;
-}
-
-.u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1.hover {
-  box-shadow: 2px 2px 8px 0px rgba(128,128,128,1) !important;
-}</style>
-</body></html>
+        transition-property: fill, color, background-color, stroke-width, border-style, border-width, border-top-width, border-left-width, border-right-width, border-bottom-width, custom-border, borders, box-shadow, text-shadow, opacity, border-radius, stroke, border-color, font-size, font-style, font-weight, text-decoration, letter-spacing, transform, background-image, image-zoom, background-size, background-position
+    }
+    .u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1:hover {
+        box-shadow: 2px 2px 8px 0px rgba(var(--grey-50-r),var(--grey-50-g),var(--grey-50-b),1) !important
+    }
+    .u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1.hover {
+        box-shadow: 2px 2px 8px 0px rgba(var(--grey-50-r),var(--grey-50-g),var(--grey-50-b),1) !important
+    } </style>
+        </section><style>.u-dialog-section-4 .u-dialog-1 {
+      width: 682px;
+      height: auto;
+      min-height: 673px;
+      margin: -24px auto 60px;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-1 {
+      padding: 19px 30px 0;
+    }
+    
+    .u-dialog-section-4 .u-image-1 {
+      width: 102px;
+      height: 102px;
+      margin: 29px auto 0;
+    }
+    
+    .u-dialog-section-4 .u-text-1 {
+      font-weight: 700;
+      width: 186px;
+      margin: 9px auto 0;
+    }
+    
+    .u-dialog-section-4 .u-group-1 {
+      background-image: none;
+      margin-top: 9px;
+      margin-bottom: 0;
+      min-height: 395px;
+      height: auto;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-2 {
+      padding: 8px 26px;
+    }
+    
+    .u-dialog-section-4 .u-text-2 {
+      font-weight: 700;
+      margin: 35px auto 0 4px;
+    }
+    
+    .u-dialog-section-4 .u-group-2 {
+      width: 401px;
+      min-height: 45px;
+      margin: 13px 3px 0 auto;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-3 {
+      padding: 30px 22px 8px;
+    }
+    
+    .u-dialog-section-4 .u-text-3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: -33px auto 0 0;
+    }
+    
+    .u-dialog-section-4 .u-group-3 {
+      width: 182px;
+      min-height: 46px;
+      margin: -45px auto 0 4px;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-4 {
+      padding: 11px 14px;
+    }
+    
+    .u-dialog-section-4 .u-text-4 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0 auto -19px 0;
+    }
+    
+    .u-dialog-section-4 .u-group-4 {
+      width: 401px;
+      min-height: 46px;
+      margin: 14px 3px 0 auto;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-5 {
+      padding: 10px 22px;
+    }
+    
+    .u-dialog-section-4 .u-text-5 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 0 24px -20px 0;
+    }
+    
+    .u-dialog-section-4 .u-group-5 {
+      width: 182px;
+      min-height: 46px;
+      margin: -46px auto 0 4px;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-6 {
+      padding: 11px 14px;
+    }
+    
+    .u-dialog-section-4 .u-text-6 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0 auto -19px 0;
+    }
+    
+    .u-dialog-section-4 .u-text-7 {
+      font-weight: 700;
+      margin: 24px auto 0 4px;
+    }
+    
+    .u-dialog-section-4 .u-group-6 {
+      width: 411px;
+      min-height: 44px;
+      margin: 19px 0 0 auto;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-7 {
+      padding: 8px 30px;
+    }
+    
+    .u-dialog-section-4 .u-text-8 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 0 auto 0 0;
+    }
+    
+    .u-dialog-section-4 .u-group-7 {
+      width: 182px;
+      min-height: 46px;
+      margin: -45px auto 0 4px;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-8 {
+      padding: 4px 14px;
+    }
+    
+    .u-dialog-section-4 .u-text-9 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 9px auto -26px 0;
+    }
+    
+    .u-dialog-section-4 .u-group-8 {
+      width: 411px;
+      min-height: 43px;
+      margin: 19px 0 0 auto;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-9 {
+      padding: 8px 30px;
+    }
+    
+    .u-dialog-section-4 .u-text-10 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 0 157px -22px 0;
+    }
+    
+    .u-dialog-section-4 .u-group-9 {
+      width: 182px;
+      min-height: 46px;
+      margin: -46px auto 0 4px;
+    }
+    
+    .u-dialog-section-4 .u-container-layout-10 {
+      padding: 9px 14px;
+    }
+    
+    .u-dialog-section-4 .u-text-11 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0 auto -21px 0;
+    }
+    
+    .u-dialog-section-4 .u-btn-1 {
+      border-style: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 2px 0 0 0 rgba(0,0,0,0);
+      margin: 9px auto 0 78px;
+    }
+    
+    .u-dialog-section-4 .u-btn-2 {
+      background-image: none;
+      border-style: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin: -45px 79px 0 auto;
+    }
+    
+    .u-dialog-section-4 .u-icon-1 {
+      width: 15px;
+      height: 15px;
+      left: auto;
+      top: 33px;
+      position: absolute;
+      right: 15px;
+    }
+    
+    @media (max-width: 1199px) {
+      .u-dialog-section-4 .u-dialog-1 {
+        width: 682px;
+      }
+    
+      .u-dialog-section-4 .u-image-1 {
+        width: 102px;
+        height: 102px;
+      }
+    
+      .u-dialog-section-4 .u-text-1 {
+        width: 186px;
+      }
+    
+      .u-dialog-section-4 .u-group-1 {
+        height: auto;
+      }
+    
+      .u-dialog-section-4 .u-text-2 {
+        margin-left: 4px;
+      }
+    
+      .u-dialog-section-4 .u-group-2 {
+        margin-right: 3px;
+      }
+    
+      .u-dialog-section-4 .u-group-3 {
+        margin-left: 4px;
+      }
+    
+      .u-dialog-section-4 .u-group-4 {
+        margin-right: 3px;
+      }
+    
+      .u-dialog-section-4 .u-group-5 {
+        margin-left: 4px;
+      }
+    
+      .u-dialog-section-4 .u-text-7 {
+        margin-left: 4px;
+      }
+    
+      .u-dialog-section-4 .u-group-6 {
+        margin-right: 0;
+      }
+    
+      .u-dialog-section-4 .u-group-7 {
+        margin-left: 4px;
+      }
+    
+      .u-dialog-section-4 .u-group-8 {
+        margin-right: 0;
+      }
+    
+      .u-dialog-section-4 .u-group-9 {
+        margin-left: 4px;
+      }
+    
+      .u-dialog-section-4 .u-btn-2 {
+        margin-right: 79px;
+      }
+    }
+    
+    @media (max-width: 991px) {
+      .u-dialog-section-4 .u-container-layout-1 {
+        padding-top: 40px;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .u-dialog-section-4 .u-dialog-1 {
+        width: 540px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-1 {
+        padding-top: 19px;
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-2 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-3 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-4 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-5 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-6 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-7 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-8 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-9 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-text-10 {
+        margin-right: 175px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-10 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    
+      .u-dialog-section-4 .u-btn-1 {
+        margin-left: 0;
+      }
+    
+      .u-dialog-section-4 .u-btn-2 {
+        margin-right: 0;
+      }
+    }
+    
+    @media (max-width: 575px) {
+      .u-dialog-section-4 .u-dialog-1 {
+        width: 340px;
+      }
+    
+      .u-dialog-section-4 .u-container-layout-1 {
+        padding-top: 40px;
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+    
+      .u-dialog-section-4 .u-group-2 {
+        width: 300px;
+        margin-right: 0;
+      }
+    
+      .u-dialog-section-4 .u-group-4 {
+        width: 300px;
+        margin-right: 0;
+      }
+    
+      .u-dialog-section-4 .u-group-6 {
+        width: 300px;
+      }
+    
+      .u-dialog-section-4 .u-group-8 {
+        width: 300px;
+      }
+    
+      .u-dialog-section-4 .u-text-10 {
+        margin-right: 125px;
+      }
+    }
+    
+    .u-dialog-section-4 .u-btn-1,
+    .u-dialog-section-4 .u-btn-1:before,
+    .u-dialog-section-4 .u-btn-1 > .u-container-layout:before {
+      transition-property: fill, color, background-color, stroke-width, border-style, border-width, border-top-width, border-left-width, border-right-width, border-bottom-width, custom-border, borders, box-shadow, text-shadow, opacity, border-radius, stroke, border-color, font-size, font-style, font-weight, text-decoration, letter-spacing, transform, background-image, image-zoom, background-size, background-position;
+    }
+    
+    .u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1:hover {
+      box-shadow: 2px 2px 8px 0px rgba(128,128,128,1) !important;
+    }
+    
+    .u-dialog-section-4 .u-btn-1.u-btn-1.u-btn-1.hover {
+      box-shadow: 2px 2px 8px 0px rgba(128,128,128,1) !important;
+    }</style>
+    </body></html>
