@@ -60,6 +60,9 @@
         }
       });
     
+    // logged in Hospital
+    const qcurrentRS = query(collection(db, "RumahSakit"));
+    const querySnapshotcurrent = await getDOcs(qcurrentRS);
     // query customer
     const qCust = query(collection(db, "Customer"));
     const querySnapshotCust = await getDocs(qCust); // this can be array of customer
@@ -117,10 +120,40 @@
     console.log(kamarNames);
     console.log(kamarPrices);
 
-    document.getElementById("pesanKamar").innerHTML = kamarNames[0];
-    document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[0] + ",00";
-    document.getElementById("namaPemesan").innerHTML = names[0];
-    document.getElementById("emailPemesan").innerHTML = emails[0];
+    box1.addEventListener('click', (e) => {
+      document.getElementById("pesanKamar").innerHTML = kamarNames[0];
+      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[0] + ",00";
+      document.getElementById("namaPemesan").innerHTML = names[0];
+      document.getElementById("emailPemesan").innerHTML = emails[0];
+    });
+    
+    box2.addEventListener('click', (e) => {
+      document.getElementById("pesanKamar").innerHTML = kamarNames[1];
+      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[1] + ",00";
+      document.getElementById("namaPemesan").innerHTML = names[1];
+      document.getElementById("emailPemesan").innerHTML = emails[1];
+    });
+
+    box3.addEventListener('click', (e) => {
+      document.getElementById("pesanKamar").innerHTML = kamarNames[2];
+      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[2] + ",00";
+      document.getElementById("namaPemesan").innerHTML = names[2];
+      document.getElementById("emailPemesan").innerHTML = emails[2];
+    });
+
+    box4.addEventListener('click', (e) => {
+      document.getElementById("pesanKamar").innerHTML = kamarNames[3];
+      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[3] + ",00";
+      document.getElementById("namaPemesan").innerHTML = names[3];
+      document.getElementById("emailPemesan").innerHTML = emails[3];
+    });
+
+    box5.addEventListener('click', (e) => {
+      document.getElementById("pesanKamar").innerHTML = kamarNames[4];
+      document.getElementById("pesanHarga").innerHTML = "Rp." + kamarPrices[4] + ",00";
+      document.getElementById("namaPemesan").innerHTML = names[4];
+      document.getElementById("emailPemesan").innerHTML = emails[4];
+    });
 
     rejectOrder.addEventListener('click', (e) => {
       const orderRef = doc(db, "Pesanan", idOrders[0]);
@@ -149,7 +182,7 @@
         
         <!-- Box select 1 -->
 
-        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-1" data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-1" data-href="#sec-39df" id="box1">
           <div class="u-container-layout u-container-layout-1">
             <img class="u-image u-image-default u-preserve-proportions u-image-2" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
@@ -157,7 +190,7 @@
 
         <!-- Box select 2 -->
 
-        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-2" data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-2" data-href="#sec-39df" id="box2">
           <div class="u-container-layout u-container-layout-2">
             <img class="u-image u-image-default u-preserve-proportions u-image-3" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
@@ -165,7 +198,7 @@
 
         <!-- Box select 3 -->
 
-        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-3" data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-3" data-href="#sec-39df" id="box3">
           <div class="u-container-layout u-container-layout-3">
             <img class="u-image u-image-default u-preserve-proportions u-image-4" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
@@ -173,7 +206,7 @@
 
         <!-- Box select 4 -->
 
-        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-4" data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-4" data-href="#sec-39df" id="box4">
           <div class="u-container-layout u-container-layout-4">
             <img class="u-image u-image-default u-preserve-proportions u-image-5" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
@@ -181,7 +214,7 @@
 
         <!-- Box select 5 -->
 
-        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-5" data-href="#sec-39df">
+        <div class="u-container-style u-dialog-link u-grey-40 u-group u-preserve-proportions u-radius-50 u-shape-round u-group-5" data-href="#sec-39df" id="box5">
           <div class="u-container-layout u-container-layout-5">
             <img class="u-image u-image-default u-preserve-proportions u-image-6" src="images/check-list.png" alt="" data-image-width="512" data-image-height="512">
           </div>
