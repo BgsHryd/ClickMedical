@@ -54,15 +54,9 @@
     const kamarPrices = [];
 
     let email = "";
-    onAuthStateChanged(auth, (user) => {
-        if (user){
-          email = user.email;
-        }
-      });
     
     // logged in Hospital
     const qcurrentRS = query(collection(db, "RumahSakit"));
-    const querySnapshotcurrent = await getDOcs(qcurrentRS);
     // query customer
     const qCust = query(collection(db, "Customer"));
     const querySnapshotCust = await getDocs(qCust); // this can be array of customer
@@ -71,6 +65,18 @@
     const qRS = query(collection(db, "RumahSakit"));
     const querySnapshotRS = await getDocs(qRS); // this can be array of RS
 
+    let rsName = "";
+    await onAuthStateChanged(auth, (user) => {
+        if (user){
+          email = user.email;
+        }
+        querySnapshotRS.forEach((rs) =>{
+          if (rs.get("email") == email){
+            rsName = rs.get("nama");
+          }
+        });
+      });
+    document.getElementById("header").innerHTML = rsName;
     // query Kamar
     const qKamar = query(collection(db, "Kamar"));
     const querySnapshotKamar = await getDocs(qKamar); // this can be array of Kamar
@@ -177,7 +183,7 @@
 <body class="u-body u-xl-mode" data-lang="en">
   <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="" data-image-width="1920" data-image-height="1080" id="sec-fba1">
     <div class="u-clearfix u-sheet u-sheet-1">
-      <h1 class="u-text u-text-default u-title u-text-1">CLICK MEDICAL </h1>
+      <h1 class="u-text u-text-default u-title u-text-1" id="header">CLICK MEDICAL </h1>
       <img class="u-image u-image-contain u-image-default u-image-1" src="images/ClickMedical.png" alt="" data-image-width="388" data-image-height="455">
         
         <!-- Box select 1 -->
