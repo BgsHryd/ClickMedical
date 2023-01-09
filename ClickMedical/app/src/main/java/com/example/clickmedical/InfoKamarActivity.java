@@ -30,8 +30,8 @@ public class InfoKamarActivity extends AppCompatActivity {
     ImageView imageKamar;
     Button orderButton;
     AlertDialog.Builder builder;
-    DBHelper db;
-    HelperSaver saver;
+    private DBHelper db;
+    private HelperSaver saver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

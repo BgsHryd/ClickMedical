@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="156dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="5dp"
             android:layout_row="1"
             android:layout_column="0"
@@ -65,9 +65,9 @@
             android:text="Pesan rawat inap"
             />
         <TextView
-            android:layout_width="156dp"
+            android:layout_width= "wrap_content"
             android:layout_height="25dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="15dp"
             android:layout_row="1"
             android:layout_column="1"
             android:textColor="@color/black"

@@ -97,11 +97,11 @@ public class SimulationAcceptActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    public void onBackPressed() {
-        // Do Here what ever you want do on back press;
-        Toast.makeText(this, "Please either reject or accept this order", Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        // Do Here what ever you want do on back press;
+//        Toast.makeText(this, "Please either reject or accept this order", Toast.LENGTH_SHORT).show();
+//    }
     public String giveDotToHarga(int harga){
         String strHarga = Integer.toString(harga);
         int len = strHarga.length();

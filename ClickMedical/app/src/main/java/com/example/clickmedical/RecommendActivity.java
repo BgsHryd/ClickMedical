@@ -33,9 +33,9 @@ import java.util.Locale;
 public class RecommendActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final int REQUEST_CODE = 100;
-    DBHelper dbHelper;
-    HelperSaver saver;
-    RumahSakit recRS;
+    private DBHelper dbHelper;
+    private HelperSaver saver;
+    private RumahSakit recRS;
     private int idxClose;
     private Button recPesanBtn;
     private Address lokasi;

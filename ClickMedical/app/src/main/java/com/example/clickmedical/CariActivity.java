@@ -18,14 +18,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PesanActivity extends AppCompatActivity {
+public class CariActivity extends AppCompatActivity {
     private ListView listViewRS;
     private SearchView searchView;
     private DBHelper db = new DBHelper();
@@ -51,7 +50,7 @@ public class PesanActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                PesanActivity.this.adapter.getFilter().filter(query);
+                CariActivity.this.adapter.getFilter().filter(query);
                 return false;
             }
 
@@ -139,7 +138,7 @@ public class PesanActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(PesanActivity.this, "Bookmark berhasil ditambahkan", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CariActivity.this, "Bookmark berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "DocumentSnapshot successfully written!");
                         }
                     })

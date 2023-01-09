@@ -68,7 +68,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PesanActivity"
+            android:name=".CariActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

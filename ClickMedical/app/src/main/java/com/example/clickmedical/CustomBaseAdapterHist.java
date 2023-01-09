@@ -66,4 +66,8 @@ public class CustomBaseAdapterHist extends ArrayAdapter {
         result+= "Tanggal    : " + HistList.get(position).getDate();
         return result;
     }
+    public void setFilteredList(ArrayList<History> filteredList){
+        this.HistList = filteredList;
+        notifyDataSetChanged();
+    }
 }

@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -55,7 +54,7 @@ public class Home extends AppCompatActivity {
         pesanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), PesanActivity.class));
+                startActivity(new Intent(getApplicationContext(), CariActivity.class));
             }
         });
         recBtn.setOnClickListener(new View.OnClickListener() {

@@ -20821,6 +20821,8 @@ a.pswp__share--download:hover {
 .u-dialog {
   display: flex;
   position: relative;
+  height: 500;
+  width: 500;
 }
 .u-dialog-close-button {
   position: absolute;

@@ -20,8 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
     EditText email, password;
     Button regBtn, btnLogin;
-    DBHelper DB;
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
     @Override
