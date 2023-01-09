@@ -14,11 +14,13 @@ public class ListKamarActivity extends AppCompatActivity {
     public static RumahSakit RSTarget;
     int RSImages[] = {R.drawable.hospital_bed, R.drawable.hospital_bed, R.drawable.hospital_bed};
     ListView beds;
+    HelperSaver saver;
+    DBHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // inisialisasi variabel
-        HelperSaver saver = new HelperSaver();
-        DBHelper db = new DBHelper();
+        saver = new HelperSaver();
+        db = new DBHelper();
 
         // setting agar layout activity_list_kamar muncul
         super.onCreate(savedInstanceState);

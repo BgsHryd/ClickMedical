@@ -34,8 +34,8 @@ public class HistoryActivity extends AppCompatActivity {
     FirebaseFirestore firestoreDB;
     SearchView searchBar;
     CustomBaseAdapterHist adapter;
-    DBHelper dbHelp;
-    ArrayList<History> histList;
+    private DBHelper dbHelp;
+    private ArrayList<History> histList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

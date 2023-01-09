@@ -25,6 +25,8 @@ public class BookmarkActivity extends AppCompatActivity {
     private ListView bookmarks;
     private FirebaseFirestore store;
     private String userId;
+    private DBHelper db;
+    private HelperSaver saver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // setting layout with activity_bookmark.xml
@@ -32,9 +34,9 @@ public class BookmarkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bookmark);
 
         // initialize variable
-        DBHelper db = new DBHelper();
+        db = new DBHelper();
         db.listBookmarks = new ArrayList<>();
-        HelperSaver saver = new HelperSaver();
+        saver = new HelperSaver();
         userId = db.currentUser.getId();
         store = FirebaseFirestore.getInstance();
         int RSImages[] = {R.drawable.santosa, R.drawable.immanuel};

@@ -37,7 +37,7 @@ public class InfoKamarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_kamar);
-        HelperSaver saver = new HelperSaver();
+        saver = new HelperSaver();
         RumahSakit RStarget = saver.getRumahSakit();
         Kamar kamarTarget = saver.getKamar();
 
