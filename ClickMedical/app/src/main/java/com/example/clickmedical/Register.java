@@ -82,8 +82,6 @@ public class Register extends AppCompatActivity {
                     if (pass.equals(repass)){
                         // lebih detailnya rujuk ke method register dibawah
                         register(name, mail, pass);
-                        // tambahin data customer ke dalam database
-                        addCustomerToDatabase(name, mail, "Customer");
                     }else{
                         Toast.makeText(Register.this, "Password input is not match", Toast.LENGTH_SHORT).show();
                     }
@@ -111,6 +109,7 @@ public class Register extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 // kalo dah beres buat user dan setting data pindah ke Ho
+                                addCustomerToDatabase(fullName, email, "Customer");
                                 reload();
                             }
                         });
@@ -159,6 +158,7 @@ public class Register extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
+
             reload();
         }
     }

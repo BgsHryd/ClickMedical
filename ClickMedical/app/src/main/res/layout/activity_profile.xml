@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@id/nameOfUser"
         android:layout_margin="20dp"
         android:hint="Riwayat Pesanan"
-        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:backgroundTint="@color/secondary"
         ></Button>
     <Button
@@ -46,9 +46,9 @@
         app:layout_constraintTop_toBottomOf="@id/historyButton"
         android:layout_margin="20dp"
         android:padding="1dp"
+        android:textColorHint="@color/black"
         android:hint="Log out"
         android:backgroundTint="@color/secondary"
-        android:textColor="@color/black"
         ></Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

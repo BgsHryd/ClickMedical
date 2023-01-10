@@ -27,6 +27,7 @@ public class BookmarkActivity extends AppCompatActivity {
     private String userId;
     private DBHelper db;
     private HelperSaver saver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // setting layout with activity_bookmark.xml
